@@ -14,9 +14,10 @@
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.17",
-        "symfony/cache": "^5.4 || ^6.2",
         "nesbot/carbon": "^2.67",
+        "phpstan/phpstan": "^1.10",
         "phpunit/phpunit": "^10.2",
+        "symfony/cache": "^5.4 || ^6.2",
         "symfony/yaml": "^5.4 || ^6.2",
         "zf1/zend-date": "^1.12.20",
         "zf1/zend-registry": "^1.12.20"
@@ -32,6 +33,7 @@
     },
     "scripts": {
         "lint": "php-cs-fixer fix --ansi --diff --show-progress=none --verbose",
-        "test": "phpunit --colors=always"
+        "test": "phpunit --colors=always",
+        "phpstan": "phpstan analyse"
     }
 }
