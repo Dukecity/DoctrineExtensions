@@ -10,6 +10,7 @@ use Doctrine\ORM\Query\Parser;
 use Doctrine\ORM\Query\SqlWalker;
 
 /**
+ * @link https://docs.oracle.com/en/database/oracle/oracle-database/19/sqlrf/LISTAGG.html#GUID-B6E50D8E-F467-425B-9436-F7F8BF38D466
  * @author Alexey Kalinin <nitso@yandex.ru>
  */
 class Listagg extends FunctionNode
