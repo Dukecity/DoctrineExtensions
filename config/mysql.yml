@@ -16,6 +16,8 @@ doctrine:
                  div: DoctrineExtensions\Query\Mysql\Div
                  from_unixtime: DoctrineExtensions\Query\Mysql\FromUnixtime
                  hour: DoctrineExtensions\Query\Mysql\Hour
+                 json_extract: DoctrineExtensions\Query\Mysql\JsonExtract
+                 json_unquote: DoctrineExtensions\Query\Mysql\JsonUnquote
                  last_day: DoctrineExtensions\Query\Mysql\LastDay
                  makedate: DoctrineExtensions\Query\Mysql\MakeDate
                  minute: DoctrineExtensions\Query\Mysql\Minute
