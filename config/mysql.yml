@@ -73,6 +73,7 @@ doctrine:
                  rand: DoctrineExtensions\Query\Mysql\Rand
                  round: DoctrineExtensions\Query\Mysql\Round
                  stddev: DoctrineExtensions\Query\Mysql\StdDev
+                 st_distance_sphere: DoctrineExtensions\Query\Mysql\StDistanceSphere
                  sin: DoctrineExtensions\Query\Mysql\Sin
                  std: DoctrineExtensions\Query\Mysql\Std
                  tan: DoctrineExtensions\Query\Mysql\Tan

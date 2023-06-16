@@ -8,20 +8,20 @@ use Doctrine\ORM\Query\Parser;
 use Doctrine\ORM\Query\SqlWalker;
 
 /**
- * @link https://dev.mysql.com/doc/refman/8.0/en/gis-class-point.html
+ * @link https://dev.mysql.com/doc/refman/8.0/en/spatial-convenience-functions.html#function_st-distance-sphere
  */
-class Point extends FunctionNode
+class StDistanceSphere extends FunctionNode
 {
-    public $latitude;
+    public $origin;
 
-    public $longitude;
+    public $remote;
 
     public function getSql(SqlWalker $sqlWalker): string
     {
         return sprintf(
-            'POINT(%s %s)',
-            $sqlWalker->walkArithmeticPrimary($this->latitude),
-            $sqlWalker->walkArithmeticPrimary($this->longitude)
+            'ST_DISTANCE_SPHERE(%s, %s)',
+            $this->origin->dispatch($sqlWalker),
+            $this->remote->dispatch($sqlWalker)
         );
     }
 
@@ -30,8 +30,9 @@ class Point extends FunctionNode
         $parser->match(Lexer::T_IDENTIFIER);
         $parser->match(Lexer::T_OPEN_PARENTHESIS);
 
-        $this->latitude = $parser->ArithmeticPrimary();
-        $this->longitude = $parser->ArithmeticPrimary();
+        $this->origin = $parser->ArithmeticPrimary();
+        $parser->match(Lexer::T_COMMA);
+        $this->remote = $parser->ArithmeticPrimary();
 
         $parser->match(Lexer::T_CLOSE_PARENTHESIS);
     }
