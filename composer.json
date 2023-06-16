@@ -18,9 +18,7 @@
         "phpstan/phpstan": "^1.10",
         "phpunit/phpunit": "^10.2",
         "symfony/cache": "^5.4 || ^6.2",
-        "symfony/yaml": "^5.4 || ^6.2",
-        "zf1/zend-date": "^1.12.20",
-        "zf1/zend-registry": "^1.12.20"
+        "symfony/yaml": "^5.4 || ^6.2"
     },
     "autoload": {
         "psr-4": {"DoctrineExtensions\\" : "src/"}
