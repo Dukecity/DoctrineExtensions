@@ -10,29 +10,21 @@ use Doctrine\ORM\Query\Parser;
 use Doctrine\ORM\Query\SqlWalker;
 
 /**
+ * @link https://docs.oracle.com/en/database/oracle/oracle-database/19/sqlrf/LISTAGG.html#GUID-B6E50D8E-F467-425B-9436-F7F8BF38D466
  * @author Alexey Kalinin <nitso@yandex.ru>
  */
 class Listagg extends FunctionNode
 {
-    /**
-     * @var Node
-     */
-    public $separator = null;
+    public ?Node $separator = null;
 
-    /**
-     * @var Node
-     */
-    public $listaggField = null;
+    public ?Node $listaggField = null;
 
-    /**
-     * @var OrderByClause
-     */
-    public $orderBy;
+    public OrderByClause $orderBy;
 
     /**
      * @var Node[]
      */
-    public $partitionBy = [];
+    public array $partitionBy = [];
 
     /**
      * @inheritdoc
@@ -97,7 +89,7 @@ class Listagg extends FunctionNode
             $result .= ')';
         }
 
-        $result .= ' WITHIN GROUP (' . $sqlWalker->walkOrderByClause($this->orderBy) . ')';
+        $result .= ' WITHIN GROUP (' . ltrim($sqlWalker->walkOrderByClause($this->orderBy)) . ')';
 
         if (count($this->partitionBy)) {
             $partitionBy = [];
@@ -105,7 +97,7 @@ class Listagg extends FunctionNode
                 $partitionBy[] = $part->dispatch($sqlWalker);
             }
 
-            $result .= ' PARTITION BY (' . implode(',', $partitionBy) . ')';
+            $result .= ' OVER (PARTITION BY ' . implode(', ', $partitionBy) . ')';
         }
 
         return $result;
