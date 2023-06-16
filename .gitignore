@@ -4,3 +4,4 @@
 /tests/phpunit.xml
 /vendor
 .php-cs-fixer.cache
+clover.xml
