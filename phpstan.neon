@@ -1,0 +1,7 @@
+#https://phpstan.org/config-reference
+parameters:
+    editorUrl: 'phpstorm://open?file=%%file%%&line=%%line%%'
+
+    level: 1
+    paths:
+        - src
