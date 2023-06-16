@@ -66,6 +66,7 @@ doctrine:
                  log10: DoctrineExtensions\Query\Mysql\Log10
                  log2: DoctrineExtensions\Query\Mysql\Log2
                  pi: DoctrineExtensions\Query\Mysql\Pi
+                 point: DoctrineExtensions\Query\Mysql\Point
                  power: DoctrineExtensions\Query\Mysql\Power
                  quarter: DoctrineExtensions\Query\Mysql\Quarter
                  radians: DoctrineExtensions\Query\Mysql\Radians
