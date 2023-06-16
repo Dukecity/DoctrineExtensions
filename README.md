@@ -3,10 +3,8 @@ DoctrineExtensions
 
 [![Build Status](https://img.shields.io/badge/branch-master-blue.svg)](https://github.com/Dukecity/DoctrineExtensions/tree/master)
 [![Build Status](https://github.com/Dukecity/DoctrineExtensions/workflows/Tests/badge.svg)](https://github.com/Dukecity/DoctrineExtensions/actions)
+[![codecov](https://codecov.io/gh/Dukecity/DoctrineExtensions/branch/master/graph/badge.svg?token=LGK8XH8Z8Z)](https://codecov.io/gh/Dukecity/DoctrineExtensions)
 [![Packagist](https://img.shields.io/packagist/v/Dukecity/doctrineextensions.svg?label=stable)](https://packagist.org/packages/Dukecity/doctrineextensions)
-[![Packagist](https://img.shields.io/packagist/dd/Dukecity/doctrineextensions.svg?label=⬇)](https://packagist.org/packages/Dukecity/doctrineextensions)
-[![Packagist](https://img.shields.io/packagist/dm/Dukecity/doctrineextensions.svg?label=⬇)](https://packagist.org/packages/Dukecity/doctrineextensions)
-[![Packagist](https://img.shields.io/packagist/dt/Dukecity/doctrineextensions.svg?label=⬇)](https://packagist.org/packages/Dukecity/doctrineextensions)
 
 A set of extensions to Doctrine 2 that add support for functions available in
 MySQL, Oracle, PostgreSQL and SQLite.
@@ -33,18 +31,6 @@ version:
 composer require beberlei/doctrineextensions
 ```
 
-If you want to run phpunit:
-
-```sh
-composer run test
-```
-
-If you want to run php-cs-fixer:
-
-```sh
-composer run lint
-```
-
 Usage
 -----
 
@@ -61,6 +47,22 @@ $classLoader = new \Doctrine\Common\ClassLoader('DoctrineExtensions', '/path/to/
 $classLoader->register();
 ```
 For more information check out the documentation of [Doctrine DQL User Defined Functions](https://www.doctrine-project.org/projects/doctrine-orm/en/latest/cookbook/dql-user-defined-functions.html).
+
+
+Test and Contributing
+------------
+
+If you want to run phpunit:
+
+```sh
+composer run test
+```
+
+If you want to run php-cs-fixer:
+
+```sh
+composer run lint
+```
 
 Notes
 -----
