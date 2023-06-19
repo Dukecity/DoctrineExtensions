@@ -48,6 +48,20 @@ $classLoader->register();
 ```
 For more information check out the documentation of [Doctrine DQL User Defined Functions](https://www.doctrine-project.org/projects/doctrine-orm/en/latest/cookbook/dql-user-defined-functions.html).
 
+Motivation
+==================
+
+The [original repo](https://github.com/beberlei/DoctrineExtensions) is [not so good maintained anymore](https://github.com/beberlei/DoctrineExtensions/pull/380#issuecomment-1445191806). 
+The motivation for this Repo, is to 
+- add more functions
+- improve CodeCoverage and testing (your help is welcome)
+- modernize
+
+Credits
+==================
+
+Credits and thanks to the original repo and their maintainers.
+https://github.com/beberlei/DoctrineExtensions
 
 Test and Contributing
 ------------
