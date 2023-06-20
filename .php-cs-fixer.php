@@ -75,7 +75,7 @@ $config
         'semicolon_after_instruction' => true,
         'short_scalar_cast' => true,
         'simplified_null_return' => true,
-        'single_blank_line_before_namespace' => true,
+        'blank_lines_before_namespace' => true,
         'single_quote' => true,
         'space_after_semicolon' => true,
         'standardize_not_equals' => true,
