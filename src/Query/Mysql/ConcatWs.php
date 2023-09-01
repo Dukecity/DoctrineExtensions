@@ -33,7 +33,7 @@ class ConcatWs extends FunctionNode
             $parser->match(Lexer::T_COMMA);
             $peek = $lexer->glimpse();
 
-            $this->values[] = $peek['value'] == '('
+            $this->values[] = $peek->value == '('
                     ? $parser->FunctionDeclaration()
                     : $parser->ArithmeticExpression();
         }
