@@ -3,6 +3,7 @@
 namespace DoctrineExtensions\Query\Postgresql;
 
 use Doctrine\ORM\Query\AST\Functions\FunctionNode;
+use Doctrine\ORM\Query\AST\Functions\LowerFunction;
 use Doctrine\ORM\Query\AST\OrderByClause;
 use Doctrine\ORM\Query\AST\PathExpression;
 use Doctrine\ORM\Query\Lexer;
@@ -12,12 +13,13 @@ use Doctrine\ORM\Query\SqlWalker;
 /**
  * @author Roberto Júnior <me@robertojunior.net>
  * @author Vaskevich Eugeniy <wbrframe@gmail.com>
+ * @author Allan Simon <asimon@rosaly.com>
  */
 class StringAgg extends FunctionNode
 {
     private OrderByClause|null $orderBy = null;
 
-    private PathExpression|null $expression = null;
+    private PathExpression|LowerFunction|null $expression = null;
 
     private $delimiter = null;
 
@@ -35,7 +37,7 @@ class StringAgg extends FunctionNode
             $this->isDistinct = true;
         }
 
-        $this->expression = $parser->PathExpression(PathExpression::TYPE_STATE_FIELD);
+        $this->expression = $parser->ArithmeticPrimary();
         $parser->match(Lexer::T_COMMA);
         $this->delimiter = $parser->StringPrimary();
 
@@ -51,7 +53,7 @@ class StringAgg extends FunctionNode
         return \sprintf(
             'string_agg(%s%s, %s%s)',
             ($this->isDistinct ? 'DISTINCT ' : ''),
-            $sqlWalker->walkPathExpression($this->expression),
+            $this->expression->dispatch($sqlWalker),
             $sqlWalker->walkStringPrimary($this->delimiter),
             ($this->orderBy ? $sqlWalker->walkOrderByClause($this->orderBy) : '')
         );
