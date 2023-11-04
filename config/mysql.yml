@@ -85,6 +85,7 @@ doctrine:
                  any_value: DoctrineExtensions\Query\Mysql\AnyValue
                  ascii: DoctrineExtensions\Query\Mysql\Ascii
                  binary: DoctrineExtensions\Query\Mysql\Binary
+                 bin_to_uuid: DoctrineExtensions\Query\Mysql\BinToUuid
                  cast: DoctrineExtensions\Query\Mysql\Cast
                  char_length: DoctrineExtensions\Query\Mysql\CharLength
                  collate: DoctrineExtensions\Query\Mysql\Collate
@@ -132,3 +133,4 @@ doctrine:
                  substring_index: DoctrineExtensions\Query\Mysql\SubstringIndex
                  unhex: DoctrineExtensions\Query\Mysql\Unhex
                  uuid_short: DoctrineExtensions\Query\Mysql\UuidShort
+                 uuid_to_bin: DoctrineExtensions\Query\Mysql\UuidToBin
