@@ -13,12 +13,12 @@
         "doctrine/orm": "^2.9"
     },
     "require-dev": {
-        "friendsofphp/php-cs-fixer": "^3.17",
-        "nesbot/carbon": "^2.67",
+        "friendsofphp/php-cs-fixer": "^3.38",
+        "nesbot/carbon": "^2.71",
         "phpstan/phpstan": "^1.10",
-        "phpunit/phpunit": "^10.2",
-        "symfony/cache": "^5.4 || ^6.2",
-        "symfony/yaml": "^5.4 || ^6.2"
+        "phpunit/phpunit": "^10.4",
+        "symfony/cache": "^6.3 || ^7.0",
+        "symfony/yaml": "^6.3 || ^7.0"
     },
     "autoload": {
         "psr-4": {"DoctrineExtensions\\" : "src/"}
