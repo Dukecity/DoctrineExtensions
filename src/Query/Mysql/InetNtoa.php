@@ -4,27 +4,14 @@ namespace DoctrineExtensions\Query\Mysql;
 
 use Doctrine\ORM\Query\AST\Functions\FunctionNode;
 use Doctrine\ORM\Query\AST\Node;
-use Doctrine\ORM\Query\Lexer;
 use Doctrine\ORM\Query\Parser;
 use Doctrine\ORM\Query\QueryException;
 use Doctrine\ORM\Query\SqlWalker;
+use Doctrine\ORM\Query\TokenType;
 
 class InetNtoa extends FunctionNode
 {
     public $valueExpression = null;
-
-    /**
-     * @param Parser $parser
-     *
-     * @throws QueryException
-     */
-    public function parse(Parser $parser): void
-    {
-        $parser->match(Lexer::T_IDENTIFIER);
-        $parser->match(Lexer::T_OPEN_PARENTHESIS);
-        $this->valueExpression = $parser->StringPrimary();
-        $parser->match(Lexer::T_CLOSE_PARENTHESIS);
-    }
 
     /**
      * @param SqlWalker $sqlWalker
@@ -35,10 +22,23 @@ class InetNtoa extends FunctionNode
     {
         return 'INET_NTOA('
             . (
-                $this->valueExpression instanceof Node
+            $this->valueExpression instanceof Node
                 ? $this->valueExpression->dispatch($sqlWalker)
                 : "'" . $this->valueExpression . "'"
             )
             .')';
+    }
+
+    /**
+     * @param Parser $parser
+     *
+     * @throws QueryException
+     */
+    public function parse(Parser $parser): void
+    {
+        $parser->match(TokenType::T_IDENTIFIER);
+        $parser->match(TokenType::T_OPEN_PARENTHESIS);
+        $this->valueExpression = $parser->StringPrimary();
+        $parser->match(TokenType::T_CLOSE_PARENTHESIS);
     }
 }

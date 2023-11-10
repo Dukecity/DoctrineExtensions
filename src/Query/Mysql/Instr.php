@@ -2,26 +2,16 @@
 
 namespace DoctrineExtensions\Query\Mysql;
 
-use  Doctrine\ORM\Query\AST\Functions\FunctionNode;
-use  Doctrine\ORM\Query\Lexer;
-use  Doctrine\ORM\Query\Parser;
-use  Doctrine\ORM\Query\SqlWalker;
+use Doctrine\ORM\Query\AST\Functions\FunctionNode;
+use Doctrine\ORM\Query\Parser;
+use Doctrine\ORM\Query\SqlWalker;
+use Doctrine\ORM\Query\TokenType;
 
 class Instr extends FunctionNode
 {
     public $originalString = null;
 
     public $subString = null;
-
-    public function parse(Parser $parser): void
-    {
-        $parser->match(Lexer::T_IDENTIFIER);
-        $parser->match(Lexer::T_OPEN_PARENTHESIS);
-        $this->originalString = $parser->ArithmeticPrimary();
-        $parser->match(Lexer::T_COMMA);
-        $this->subString = $parser->ArithmeticPrimary();
-        $parser->match(Lexer::T_CLOSE_PARENTHESIS);
-    }
 
     public function getSql(SqlWalker $sqlWalker): string
     {
@@ -30,5 +20,15 @@ class Instr extends FunctionNode
             $this->originalString->dispatch($sqlWalker),
             $this->subString->dispatch($sqlWalker)
         );
+    }
+
+    public function parse(Parser $parser): void
+    {
+        $parser->match(TokenType::T_IDENTIFIER);
+        $parser->match(TokenType::T_OPEN_PARENTHESIS);
+        $this->originalString = $parser->ArithmeticPrimary();
+        $parser->match(TokenType::T_COMMA);
+        $this->subString = $parser->ArithmeticPrimary();
+        $parser->match(TokenType::T_CLOSE_PARENTHESIS);
     }
 }

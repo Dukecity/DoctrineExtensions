@@ -2,10 +2,10 @@
 
 namespace DoctrineExtensions\Query\Mysql;
 
-use Doctrine\ORM\Query\Lexer;
 use Doctrine\ORM\Query\Parser;
 use Doctrine\ORM\Query\QueryException;
 use Doctrine\ORM\Query\SqlWalker;
+use Doctrine\ORM\Query\TokenType;
 
 /**
  * @author Ahwalian Masykur <ahwalian@gmail.com>
@@ -16,21 +16,6 @@ class Extract extends DateAdd
 
     public $unit = null;
 
-    public function parse(Parser $parser): void
-    {
-        $parser->match(Lexer::T_IDENTIFIER);
-        $parser->match(Lexer::T_OPEN_PARENTHESIS);
-
-        $parser->match(Lexer::T_IDENTIFIER);
-        $lexer = $parser->getLexer();
-        $this->unit = $lexer->token->value;
-
-        $parser->match(Lexer::T_IDENTIFIER);
-        $this->date = $parser->ArithmeticPrimary();
-
-        $parser->match(Lexer::T_CLOSE_PARENTHESIS);
-    }
-
     public function getSql(SqlWalker $sqlWalker): string
     {
         $unit = strtoupper($this->unit);
@@ -39,5 +24,20 @@ class Extract extends DateAdd
         }
 
         return 'EXTRACT(' . $unit . ' FROM '. $this->date->dispatch($sqlWalker) . ')';
+    }
+
+    public function parse(Parser $parser): void
+    {
+        $parser->match(TokenType::T_IDENTIFIER);
+        $parser->match(TokenType::T_OPEN_PARENTHESIS);
+
+        $parser->match(TokenType::T_IDENTIFIER);
+        $lexer = $parser->getLexer();
+        $this->unit = $lexer->token->value;
+
+        $parser->match(TokenType::T_IDENTIFIER);
+        $this->date = $parser->ArithmeticPrimary();
+
+        $parser->match(TokenType::T_CLOSE_PARENTHESIS);
     }
 }

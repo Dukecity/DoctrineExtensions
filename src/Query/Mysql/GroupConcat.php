@@ -3,9 +3,9 @@
 namespace DoctrineExtensions\Query\Mysql;
 
 use Doctrine\ORM\Query\AST\Functions\FunctionNode;
-use Doctrine\ORM\Query\Lexer;
 use Doctrine\ORM\Query\Parser;
 use Doctrine\ORM\Query\SqlWalker;
+use Doctrine\ORM\Query\TokenType;
 
 class GroupConcat extends FunctionNode
 {
@@ -16,47 +16,6 @@ class GroupConcat extends FunctionNode
     public $separator = null;
 
     public $orderBy = null;
-
-    public function parse(Parser $parser): void
-    {
-        $parser->match(Lexer::T_IDENTIFIER);
-        $parser->match(Lexer::T_OPEN_PARENTHESIS);
-
-        $lexer = $parser->getLexer();
-        if ($lexer->isNextToken(Lexer::T_DISTINCT)) {
-            $parser->match(Lexer::T_DISTINCT);
-
-            $this->isDistinct = true;
-        }
-
-        // first Path Expression is mandatory
-        $this->pathExp = [];
-        if ($lexer->isNextToken(Lexer::T_IDENTIFIER)) {
-            $this->pathExp[] = $parser->StringExpression();
-        } else {
-            $this->pathExp[] = $parser->SingleValuedPathExpression();
-        }
-
-        while ($lexer->isNextToken(Lexer::T_COMMA)) {
-            $parser->match(Lexer::T_COMMA);
-            $this->pathExp[] = $parser->StringPrimary();
-        }
-
-        if ($lexer->isNextToken(Lexer::T_ORDER)) {
-            $this->orderBy = $parser->OrderByClause();
-        }
-
-        if ($lexer->isNextToken(Lexer::T_IDENTIFIER)) {
-            if (strtolower($lexer->lookahead->value) !== 'separator') {
-                $parser->syntaxError('separator');
-            }
-            $parser->match(Lexer::T_IDENTIFIER);
-
-            $this->separator = $parser->StringPrimary();
-        }
-
-        $parser->match(Lexer::T_CLOSE_PARENTHESIS);
-    }
 
     public function getSql(SqlWalker $sqlWalker): string
     {
@@ -80,5 +39,46 @@ class GroupConcat extends FunctionNode
         $result .= ')';
 
         return $result;
+    }
+
+    public function parse(Parser $parser): void
+    {
+        $parser->match(TokenType::T_IDENTIFIER);
+        $parser->match(TokenType::T_OPEN_PARENTHESIS);
+
+        $lexer = $parser->getLexer();
+        if ($lexer->isNextToken(TokenType::T_DISTINCT)) {
+            $parser->match(TokenType::T_DISTINCT);
+
+            $this->isDistinct = true;
+        }
+
+        // first Path Expression is mandatory
+        $this->pathExp = [];
+        if ($lexer->isNextToken(TokenType::T_IDENTIFIER)) {
+            $this->pathExp[] = $parser->StringExpression();
+        } else {
+            $this->pathExp[] = $parser->SingleValuedPathExpression();
+        }
+
+        while ($lexer->isNextToken(TokenType::T_COMMA)) {
+            $parser->match(TokenType::T_COMMA);
+            $this->pathExp[] = $parser->StringPrimary();
+        }
+
+        if ($lexer->isNextToken(TokenType::T_ORDER)) {
+            $this->orderBy = $parser->OrderByClause();
+        }
+
+        if ($lexer->isNextToken(TokenType::T_IDENTIFIER)) {
+            if (strtolower($lexer->lookahead->value) !== 'separator') {
+                $parser->syntaxError('separator');
+            }
+            $parser->match(TokenType::T_IDENTIFIER);
+
+            $this->separator = $parser->StringPrimary();
+        }
+
+        $parser->match(TokenType::T_CLOSE_PARENTHESIS);
     }
 }

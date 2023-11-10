@@ -3,9 +3,9 @@
 namespace DoctrineExtensions\Query\Mysql;
 
 use Doctrine\ORM\Query\AST\Functions\FunctionNode;
-use Doctrine\ORM\Query\Lexer;
 use Doctrine\ORM\Query\Parser;
 use Doctrine\ORM\Query\SqlWalker;
+use Doctrine\ORM\Query\TokenType;
 
 /**
  * @author Nima S <nimasdj@yahoo.com>
@@ -33,17 +33,17 @@ class FromUnixtime extends FunctionNode
     {
         $lexer = $parser->getLexer();
 
-        $parser->match(Lexer::T_IDENTIFIER);
-        $parser->match(Lexer::T_OPEN_PARENTHESIS);
+        $parser->match(TokenType::T_IDENTIFIER);
+        $parser->match(TokenType::T_OPEN_PARENTHESIS);
 
         $this->firstExpression = $parser->ArithmeticPrimary();
 
         // parse second parameter if available
-        if (Lexer::T_COMMA === $lexer->lookahead->type) {
-            $parser->match(Lexer::T_COMMA);
+        if (TokenType::T_COMMA === $lexer->lookahead->type) {
+            $parser->match(TokenType::T_COMMA);
             $this->secondExpression = $parser->ArithmeticPrimary();
         }
 
-        $parser->match(Lexer::T_CLOSE_PARENTHESIS);
+        $parser->match(TokenType::T_CLOSE_PARENTHESIS);
     }
 }

@@ -3,30 +3,15 @@
 namespace DoctrineExtensions\Query\Mysql;
 
 use Doctrine\ORM\Query\AST\Functions\FunctionNode;
-use Doctrine\ORM\Query\Lexer;
 use Doctrine\ORM\Query\Parser;
 use Doctrine\ORM\Query\SqlWalker;
+use Doctrine\ORM\Query\TokenType;
 
 class UuidToBin extends FunctionNode
 {
     public $stringUuid = null;
 
     public $swapFlag = null;
-
-    public function parse(Parser $parser): void
-    {
-        $parser->match(Lexer::T_IDENTIFIER);
-        $parser->match(Lexer::T_OPEN_PARENTHESIS);
-
-        $this->stringUuid = $parser->ArithmeticPrimary();
-
-        if (Lexer::T_COMMA === $parser->getLexer()->lookahead->type) {
-            $parser->match(Lexer::T_COMMA);
-            $this->swapFlag = $parser->Literal();
-        }
-
-        $parser->match(Lexer::T_CLOSE_PARENTHESIS);
-    }
 
     public function getSql(SqlWalker $sqlWalker): string
     {
@@ -37,5 +22,20 @@ class UuidToBin extends FunctionNode
         $sql .= ')';
 
         return $sql;
+    }
+
+    public function parse(Parser $parser): void
+    {
+        $parser->match(TokenType::T_IDENTIFIER);
+        $parser->match(TokenType::T_OPEN_PARENTHESIS);
+
+        $this->stringUuid = $parser->ArithmeticPrimary();
+
+        if (TokenType::T_COMMA === $parser->getLexer()->lookahead->type) {
+            $parser->match(TokenType::T_COMMA);
+            $this->swapFlag = $parser->Literal();
+        }
+
+        $parser->match(TokenType::T_CLOSE_PARENTHESIS);
     }
 }
