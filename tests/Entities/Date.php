@@ -8,10 +8,10 @@ use Doctrine\ORM\Mapping as ORM;
 final class Date
 {
     #[ORM\Id]
-    #[ORM\Column(type: 'string')]
+    #[ORM\Column]
     #[ORM\GeneratedValue]
     public string $id;
 
-    #[ORM\Column(type: 'DateTime')]
+    #[ORM\Column]
     public \DateTime $created;
 }
