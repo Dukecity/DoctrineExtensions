@@ -3,10 +3,10 @@
 namespace DoctrineExtensions\Query\Mysql;
 
 use Doctrine\ORM\Query\AST\Functions\FunctionNode;
-use Doctrine\ORM\Query\Lexer;
 use Doctrine\ORM\Query\Parser;
 use Doctrine\ORM\Query\QueryException;
 use Doctrine\ORM\Query\SqlWalker;
+use Doctrine\ORM\Query\TokenType;
 
 class DateAdd extends FunctionNode
 {
@@ -39,22 +39,6 @@ class DateAdd extends FunctionNode
         'YEAR_MONTH',
     ];
 
-    public function parse(Parser $parser): void
-    {
-        $parser->match(Lexer::T_IDENTIFIER);
-        $parser->match(Lexer::T_OPEN_PARENTHESIS);
-
-        $this->firstDateExpression = $parser->ArithmeticFactor();
-
-        $parser->match(Lexer::T_COMMA);
-        $this->intervalExpression = $parser->ArithmeticFactor();
-
-        $parser->match(Lexer::T_COMMA);
-        $this->unit = $parser->StringPrimary();
-
-        $parser->match(Lexer::T_CLOSE_PARENTHESIS);
-    }
-
     public function getSql(SqlWalker $sqlWalker): string
     {
         $unit = strtoupper(is_string($this->unit) ? $this->unit : $this->unit->value);
@@ -66,6 +50,22 @@ class DateAdd extends FunctionNode
         return 'DATE_ADD(' .
             $sqlWalker->walkArithmeticTerm($this->firstDateExpression) . ', INTERVAL ' .
             $sqlWalker->walkArithmeticTerm($this->intervalExpression) . ' ' . $unit .
-        ')';
+            ')';
+    }
+
+    public function parse(Parser $parser): void
+    {
+        $parser->match(TokenType::T_IDENTIFIER);
+        $parser->match(TokenType::T_OPEN_PARENTHESIS);
+
+        $this->firstDateExpression = $parser->ArithmeticFactor();
+
+        $parser->match(TokenType::T_COMMA);
+        $this->intervalExpression = $parser->ArithmeticFactor();
+
+        $parser->match(TokenType::T_COMMA);
+        $this->unit = $parser->StringPrimary();
+
+        $parser->match(TokenType::T_CLOSE_PARENTHESIS);
     }
 }

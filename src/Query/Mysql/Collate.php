@@ -3,9 +3,9 @@
 namespace DoctrineExtensions\Query\Mysql;
 
 use Doctrine\ORM\Query\AST\Functions\FunctionNode;
-use Doctrine\ORM\Query\Lexer;
 use Doctrine\ORM\Query\Parser;
 use Doctrine\ORM\Query\SqlWalker;
+use Doctrine\ORM\Query\TokenType;
 
 /**
  * @link https://dev.mysql.com/doc/refman/en/charset-collate.html
@@ -23,23 +23,6 @@ class Collate extends FunctionNode
      */
     public $collation = null;
 
-    public function parse(Parser $parser): void
-    {
-        $parser->match(Lexer::T_IDENTIFIER);
-        $parser->match(Lexer::T_OPEN_PARENTHESIS);
-
-        $this->stringPrimary = $parser->StringPrimary();
-
-        $parser->match(Lexer::T_COMMA);
-        $parser->match(Lexer::T_IDENTIFIER);
-
-        $lexer = $parser->getLexer();
-
-        $this->collation = $lexer->token->value;
-
-        $parser->match(Lexer::T_CLOSE_PARENTHESIS);
-    }
-
     /**
      * @param SqlWalker $sqlWalker
      * @return string
@@ -47,5 +30,22 @@ class Collate extends FunctionNode
     public function getSql(SqlWalker $sqlWalker): string
     {
         return sprintf('%s COLLATE %s', $sqlWalker->walkStringPrimary($this->stringPrimary), $this->collation);
+    }
+
+    public function parse(Parser $parser): void
+    {
+        $parser->match(TokenType::T_IDENTIFIER);
+        $parser->match(TokenType::T_OPEN_PARENTHESIS);
+
+        $this->stringPrimary = $parser->StringPrimary();
+
+        $parser->match(TokenType::T_COMMA);
+        $parser->match(TokenType::T_IDENTIFIER);
+
+        $lexer = $parser->getLexer();
+
+        $this->collation = $lexer->token->value;
+
+        $parser->match(TokenType::T_CLOSE_PARENTHESIS);
     }
 }
