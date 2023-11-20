@@ -22,7 +22,7 @@ class IsIpv4Mapped extends FunctionNode
     {
         return 'IS_IPV4_MAPPED('
             . (
-            $this->valueExpression instanceof Node
+                $this->valueExpression instanceof Node
                 ? $this->valueExpression->dispatch($sqlWalker)
                 : "'" . $this->valueExpression . "'"
             )

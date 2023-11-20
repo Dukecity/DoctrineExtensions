@@ -22,7 +22,7 @@ class Inet6Ntoa extends FunctionNode
     {
         return 'INET6_NTOA('
             . (
-            $this->valueExpression instanceof Node
+                $this->valueExpression instanceof Node
                 ? $this->valueExpression->dispatch($sqlWalker)
                 : "'" . $this->valueExpression . "'"
             )

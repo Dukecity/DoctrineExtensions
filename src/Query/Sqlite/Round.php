@@ -3,9 +3,9 @@
 namespace DoctrineExtensions\Query\Sqlite;
 
 use Doctrine\ORM\Query\AST\Functions\FunctionNode;
-use Doctrine\ORM\Query\TokenType;
 use Doctrine\ORM\Query\Parser;
 use Doctrine\ORM\Query\SqlWalker;
+use Doctrine\ORM\Query\TokenType;
 
 /**
  * @author winkbrace <winkbrace@gmail.com>
