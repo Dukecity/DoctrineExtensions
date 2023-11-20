@@ -22,7 +22,7 @@ class IsIpv6 extends FunctionNode
     {
         return 'IS_IPV6('
             . (
-            $this->valueExpression instanceof Node
+                $this->valueExpression instanceof Node
                 ? $this->valueExpression->dispatch($sqlWalker)
                 : "'" . $this->valueExpression . "'"
             )

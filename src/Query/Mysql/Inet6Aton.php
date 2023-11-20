@@ -22,7 +22,7 @@ class Inet6Aton extends FunctionNode
     {
         return 'INET6_ATON('
             . (
-            $this->valueExpression instanceof Node
+                $this->valueExpression instanceof Node
                 ? $this->valueExpression->dispatch($sqlWalker)
                 : "'" . $this->valueExpression . "'"
             )
