@@ -85,7 +85,7 @@ final class StringTest extends MysqlTestCase
 
         $this->assertDqlProducesSql(
             "SELECT SUBSTRING('www.mysql.com', 2) from DoctrineExtensions\Tests\Entities\Blank b",
-            "SELECT SUBSTR('www.mysql.com', 2, LENGTH('www.mysql.com')) AS sclr_0 FROM Blank b0_"
+            "SELECT SUBSTR('www.mysql.com', 2) AS sclr_0 FROM Blank b0_"
         );
 
         $this->assertDqlProducesSql(
@@ -100,7 +100,7 @@ final class StringTest extends MysqlTestCase
 
         $this->assertDqlProducesSql(
             "SELECT SUBSTRING(b.id, 5) from DoctrineExtensions\Tests\Entities\Blank b",
-            'SELECT SUBSTR(b0_.id, 5, LENGTH(b0_.id)) AS sclr_0 FROM Blank b0_'
+            'SELECT SUBSTR(b0_.id, 5) AS sclr_0 FROM Blank b0_'
         );
 
         $this->assertDqlProducesSql(

@@ -14,7 +14,6 @@
     <source>
         <include>
             <directory>./src/Query</directory>
-            <directory>./src/Types</directory>
         </include>
     </source>
 </phpunit>

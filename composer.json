@@ -15,8 +15,9 @@
         "doctrine/orm": "^3.3"
     },
     "require-dev": {
+        "carbonphp/carbon-doctrine-types": "^3.2",
         "friendsofphp/php-cs-fixer": "^3.64",
-        "nesbot/carbon": "^2.72",
+        "nesbot/carbon": "^3.8",
         "phpstan/phpstan": "^1.12",
         "phpunit/phpunit": "^10.5",
         "symfony/cache": "^6.4 || ^7.0",

@@ -3,7 +3,6 @@
 namespace DoctrineExtensions\Query;
 
 use Doctrine\ORM\Query;
-use Doctrine\ORM\Query\AST\OrderByItem;
 
 /**
  * The SortableNullsWalker is a TreeWalker that walks over a DQL AST and constructs
@@ -18,12 +17,12 @@ use Doctrine\ORM\Query\AST\OrderByItem;
  *     ->addOrderBy('p.id', 'DESC'); // relation to person
  *
  * $query = $qb->getQuery();
- * $query->setHint(Doctrine\ORM\Query::HINT_CUSTOM_OUTPUT_WALKER, 'Webges\DoctrineExtensions\Query\SortableNullsWalker');
- * $query->setHint("sortableNulls.fields", array(
+ * $query->setHint(Doctrine\ORM\Query::HINT_CUSTOM_OUTPUT_WALKER, SortableNullsWalker::class);
+ * $query->setHint("sortableNulls.fields", [
  *     "p.firstname" => Webges\DoctrineExtensions\Query\SortableNullsWalker::NULLS_FIRST,
  *     "p.lastname"  => Webges\DoctrineExtensions\Query\SortableNullsWalker::NULLS_LAST,
  *     "p.id" => Webges\DoctrineExtensions\Query\SortableNullsWalker::NULLS_LAST
- * ));
+ * ]);
  *
  * @see http://www.doctrine-project.org/jira/browse/DDC-490
  */
@@ -34,9 +33,10 @@ class SortableNullsWalker extends Query\SqlWalker
     public const NULLS_LAST = 'NULLS LAST';
 
     /**
-     * @param OrderByItem $orderByItem
+     * @param Query\AST\OrderByItem $orderByItem
+     * @throws Query\QueryException
      */
-    public function walkOrderByItem($orderByItem): array|string
+    public function walkOrderByItem($orderByItem): string
     {
         $sql = parent::walkOrderByItem($orderByItem);
         $hint = $this->getQuery()->getHint('sortableNulls.fields');
